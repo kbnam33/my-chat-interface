@@ -155,16 +155,14 @@
         const commandInput = document.getElementById('commandInput');
         const submitButton = document.getElementById('submitButton');
 
-        // --- IMPORTANT: REPLACE WITH YOUR N8N WEBHOOK URL ---
-        const n8nWebhookUrl = 'https://reach-out.app.n8n.cloud/webhook/f152ce99-ea86-41b2-9103-420f6be8e8e8';
-        // ----------------------------------------------------
+        // --- IMPORTANT: Use your exact n8n Test URL here ---
+        const n8nWebhookUrl = 'https://reach-out.app.n8n.cloud/webhook-test/f152ce99-ea86-41b2-9103-420f6be8e8e8';
+        // -------------------------------------------------------
 
-        // Function to add a message bubble to the chat screen
         function addMessage(text, sender) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message', `${sender}-message`);
 
-            // If the bot's message is a JSON string, format it nicely
             if (sender === 'bot' && typeof text === 'object') {
                 const pre = document.createElement('pre');
                 pre.textContent = JSON.stringify(text, null, 2);
@@ -174,7 +172,6 @@
             }
             
             chatMessages.appendChild(messageElement);
-            // Scroll to the bottom to see the latest message
             chatMessages.scrollTop = chatMessages.scrollHeight;
             return messageElement;
         }
@@ -184,11 +181,9 @@
             const userMessage = commandInput.value.trim();
             if (!userMessage) return;
 
-            // Display the user's message immediately
             addMessage(userMessage, 'user');
             commandInput.value = '';
 
-            // Show a "typing" indicator for the bot
             const typingIndicator = addMessage('...', 'bot');
             typingIndicator.classList.add('typing-indicator');
             submitButton.disabled = true;
@@ -196,6 +191,7 @@
             try {
                 const response = await fetch(n8nWebhookUrl, {
                     method: 'POST',
+                    mode: 'cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ command: userMessage })
                 });
@@ -206,14 +202,11 @@
 
                 const data = await response.json();
                 
-                // Remove the typing indicator
                 chatMessages.removeChild(typingIndicator);
-                // Display the bot's actual response
                 addMessage(data, 'bot');
 
             } catch (error) {
                 console.error('Error:', error);
-                // Remove the typing indicator and show an error message
                 chatMessages.removeChild(typingIndicator);
                 addMessage(`Error: ${error.message}`, 'bot');
             } finally {
