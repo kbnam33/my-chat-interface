@@ -1,220 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automation Chat Interface</title>
-    <style>
-        :root {
-            --dark-bg: #121212;
-            --surface-color: #1E1E1E;
-            --text-high-emphasis: rgba(238, 238, 238, 0.87);
-            --text-medium-emphasis: rgba(238, 238, 238, 0.60);
-            --primary-color: #BB86FC;
-            --user-bubble-bg: #3700B3;
-        }
-
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-medium-emphasis);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .chat-window {
-            width: 100%;
-            max-width: 700px;
-            height: 90vh;
-            max-height: 800px;
-            background-color: var(--surface-color);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid rgba(238, 238, 238, 0.12);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .chat-header {
-            padding: 1rem;
-            background-color: rgba(238, 238, 238, 0.05);
-            text-align: center;
-            font-weight: 500;
-            color: var(--text-high-emphasis);
-            border-bottom: 1px solid rgba(238, 238, 238, 0.12);
-        }
-
-        .chat-messages {
-            flex-grow: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .message {
-            padding: 0.75rem 1.25rem;
-            border-radius: 20px;
-            line-height: 1.5;
-            max-width: 75%;
-            word-wrap: break-word;
-        }
-
-        .bot-message {
-            background-color: rgba(238, 238, 238, 0.1);
-            color: var(--text-high-emphasis);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-        
-        .bot-message pre {
-            white-space: pre-wrap;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-        
-        .bot-message.typing-indicator {
-            font-style: italic;
-        }
-
-        .user-message {
-            background-color: var(--primary-color);
-            color: #000000;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .chat-input-area {
-            padding: 1rem;
-            border-top: 1px solid rgba(238, 238, 238, 0.12);
-        }
-        
-        .command-form {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .command-input {
-            flex-grow: 1;
-            background-color: rgba(238, 238, 238, 0.05);
-            border: 1px solid rgba(238, 238, 238, 0.2);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            color: var(--text-high-emphasis);
-            transition: border-color 0.3s ease;
-        }
-        
-        .command-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        .submit-button {
-            background-color: var(--primary-color);
-            color: #000000;
-            border: none;
-            border-radius: 8px;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-        }
-        
-        .submit-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Automation Chat Interface</title>
+  <style>
+    :root {
+      --dark-bg: #121212;
+      --surface-color: #1E1E1E;
+      --text-high-emphasis: rgba(238, 238, 238, 0.87);
+      --text-medium-emphasis: rgba(238, 238, 238, 0.60);
+      --primary-color: #BB86FC;
+      --user-bubble-bg: #3700B3;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--text-medium-emphasis);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-window {
+      width: 100%;
+      max-width: 700px;
+      height: 90vh;
+      max-height: 800px;
+      background-color: var(--surface-color);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(238, 238, 238, 0.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .chat-header {
+      padding: 1rem;
+      background-color: rgba(238, 238, 238, 0.05);
+      text-align: center;
+      font-weight: 500;
+      color: var(--text-high-emphasis);
+      border-bottom: 1px solid rgba(238, 238, 238, 0.12);
+    }
+    .chat-messages {
+      flex-grow: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .message {
+      padding: 0.75rem 1.25rem;
+      border-radius: 20px;
+      line-height: 1.5;
+      max-width: 75%;
+      word-wrap: break-word;
+    }
+    .bot-message {
+      background-color: rgba(238, 238, 238, 0.1);
+      color: var(--text-high-emphasis);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+    .bot-message pre {
+      white-space: pre-wrap;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    .bot-message.typing-indicator {
+      font-style: italic;
+    }
+    .user-message {
+      background-color: var(--primary-color);
+      color: #000000;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-input-area {
+      padding: 1rem;
+      border-top: 1px solid rgba(238, 238, 238, 0.12);
+    }
+    .command-form {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .command-input {
+      flex-grow: 1;
+      background-color: rgba(238, 238, 238, 0.05);
+      border: 1px solid rgba(238, 238, 238, 0.2);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      color: var(--text-high-emphasis);
+      transition: border-color 0.3s ease;
+    }
+    .command-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+    .submit-button {
+      background-color: var(--primary-color);
+      color: #000000;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+    .submit-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="chat-window">
-        <div class="chat-header">Automation Control Interface</div>
-        <div class="chat-messages" id="chatMessages">
-             <div class="message bot-message">Hello! I'm ready for your commands.</div>
-        </div>
-        <div class="chat-input-area">
-            <form class="command-form" id="commandForm">
-                <input type="text" id="commandInput" class="command-input" placeholder="Type your command..." required autocomplete="off">
-                <button type="submit" id="submitButton" class="submit-button">Send</button>
-            </form>
-        </div>
+  <div class="chat-window">
+    <div class="chat-header">Automation Control Interface</div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message bot-message">Hello! I'm ready for your commands.</div>
     </div>
+    <div class="chat-input-area">
+      <form class="command-form" id="commandForm">
+        <input type="text" id="commandInput" class="command-input" placeholder="Type your command..." required autocomplete="off">
+        <button type="submit" id="submitButton" class="submit-button">Send</button>
+      </form>
+    </div>
+  </div>
 
-    <script>
-        const chatMessages = document.getElementById('chatMessages');
-        const commandForm = document.getElementById('commandForm');
-        const commandInput = document.getElementById('commandInput');
-        const submitButton = document.getElementById('submitButton');
+  <script>
+    const chatMessages   = document.getElementById('chatMessages');
+    const commandForm    = document.getElementById('commandForm');
+    const commandInput   = document.getElementById('commandInput');
+    const submitButton   = document.getElementById('submitButton');
 
-        // --- IMPORTANT: Use your exact n8n Test URL here ---
-        const n8nWebhookUrl = 'https://reach-out.app.n8n.cloud/webhook-test/f152ce99-ea86-41b2-9103-420f6be8e8e8';
-        // -------------------------------------------------------
+    // ← your exact n8n Test URL here:
+    const n8nWebhookUrl = 'https://reach-out.app.n8n.cloud/webhook-test/f152ce99-ea86-41b2-9103-420f6be8e8e8';
 
-        function addMessage(text, sender) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message', `${sender}-message`);
+    function addMessage(text, sender) {
+      const el = document.createElement('div');
+      el.classList.add('message', `${sender}-message`);
+      if (sender === 'bot' && typeof text === 'object') {
+        const pre = document.createElement('pre');
+        pre.textContent = JSON.stringify(text, null, 2);
+        el.appendChild(pre);
+      } else {
+        el.textContent = text;
+      }
+      chatMessages.appendChild(el);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return el;
+    }
 
-            if (sender === 'bot' && typeof text === 'object') {
-                const pre = document.createElement('pre');
-                pre.textContent = JSON.stringify(text, null, 2);
-                messageElement.appendChild(pre);
-            } else {
-                messageElement.textContent = text;
-            }
-            
-            chatMessages.appendChild(messageElement);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            return messageElement;
-        }
-        
-        commandForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const userMessage = commandInput.value.trim();
-            if (!userMessage) return;
+    commandForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      const userMessage = commandInput.value.trim();
+      if (!userMessage) return;
 
-            addMessage(userMessage, 'user');
-            commandInput.value = '';
+      addMessage(userMessage, 'user');
+      commandInput.value = '';
 
-            const typingIndicator = addMessage('...', 'bot');
-            typingIndicator.classList.add('typing-indicator');
-            submitButton.disabled = true;
+      const typing = addMessage('...', 'bot');
+      typing.classList.add('typing-indicator');
+      submitButton.disabled = true;
 
-            try {
-                const response = await fetch(n8nWebhookUrl, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ command: userMessage })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`n8n workflow responded with status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                
-                chatMessages.removeChild(typingIndicator);
-                addMessage(data, 'bot');
-
-            } catch (error) {
-                console.error('Error:', error);
-                chatMessages.removeChild(typingIndicator);
-                addMessage(`Error: ${error.message}`, 'bot');
-            } finally {
-                submitButton.disabled = false;
-                commandInput.focus();
-            }
+      try {
+        const response = await fetch(n8nWebhookUrl, {
+          method: 'POST',
+          mode:   'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ command: userMessage })
         });
-    </script>
+
+        if (!response.ok) {
+          throw new Error(`n8n workflow responded with status: ${response.status}`);
+        }
+
+        // ← new: always read raw text, then try JSON.parse
+        const raw = await response.text();
+        let data;
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          data = raw || '[no response body]';
+        }
+
+        chatMessages.removeChild(typing);
+        addMessage(data, 'bot');
+
+      } catch (error) {
+        console.error(error);
+        chatMessages.removeChild(typing);
+        addMessage(`Error: ${error.message}`, 'bot');
+      } finally {
+        submitButton.disabled = false;
+        commandInput.focus();
+      }
+    });
+  </script>
 
 </body>
 </html>
